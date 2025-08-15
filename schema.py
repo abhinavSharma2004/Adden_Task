@@ -1,8 +1,8 @@
 from pydantic import BaseModel
 
 class AdsetSchema(BaseModel):
-    id: int
-    name: str
+    adset_id: int
+    adset_name: str
     reach: str
     campaign_id: int
 
@@ -10,16 +10,16 @@ class AdsetSchema(BaseModel):
         orm_mode = True
 
 class CampaignSchema(BaseModel):
-    id: int
-    name: str
+    campaign_id: int
+    campaign_name: str
     traffic: str
 
     class Config:
         orm_mode = True
 
 class GroupSchema(BaseModel):
-    id: int
-    name: str
+    group_id: int
+    group_name: str
 
     class Config:
         orm_mode = True

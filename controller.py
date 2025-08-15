@@ -49,7 +49,7 @@ async def get_adsets_by_group(group_id: int, db: AsyncSession = Depends(get_db))
     result = await db.execute(
         select(Group)
         .options(selectinload(Group.adsets))
-        .where(Group.id == group_id)
+        .where(Group.group_id == group_id)
         )
     group = result.scalars().first()
 
@@ -82,14 +82,14 @@ async def add_adset_to_group(group_id: int, adset_id: int, db: AsyncSession = De
     result = await db.execute(
         select(Group)
         .options(selectinload(Group.adsets))
-        .where(Group.id == group_id)
+        .where(Group.group_id == group_id)
     )
 
     group = result.scalar_one_or_none()
     if not group:
         raise HTTPException(status_code=404, detail="Group not found")
 
-    result = await db.execute(select(Adset).where(Adset.id == adset_id))
+    result = await db.execute(select(Adset).where(Adset.adset_id == adset_id))
     adset = result.scalar_one_or_none()
     
     if not adset:

@@ -7,15 +7,15 @@ from sqlalchemy.sql import func
 adset_groups = Table(
     'adset_groups',
     Base.metadata,
-    Column('adset_id', Integer, ForeignKey('adsets.id', ondelete='CASCADE'), primary_key=True),
-    Column('group_id', Integer, ForeignKey('groups.id', ondelete='CASCADE'), primary_key=True)
+    Column('adset_id', Integer, ForeignKey('adsets.adset_id', ondelete='CASCADE'), primary_key=True),
+    Column('group_id', Integer, ForeignKey('groups.group_id', ondelete='CASCADE'), primary_key=True)
 )
 
 class Campaign(Base):
     __tablename__ = "campaigns"
 
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(255), unique=True, nullable=False)
+    campaign_id = Column(Integer, primary_key=True, index=True)
+    campaign_name = Column(String(255), unique=True, nullable=False)
     traffic = Column(String(255), nullable=False)
     created_at = Column(TIMESTAMP(timezone=True), server_default=func.now())
     updated_at = Column(TIMESTAMP(timezone=True), onupdate=func.now())
@@ -26,14 +26,14 @@ class Campaign(Base):
 class Adset(Base):
     __tablename__ = "adsets"
 
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(255), nullable=False)
+    adset_id = Column(Integer, primary_key=True, index=True)
+    adset_name = Column(String(255), nullable=False)
     reach = Column(String(255), nullable=False)
     created_at = Column(TIMESTAMP(timezone=True), server_default=func.now())
     updated_at = Column(TIMESTAMP(timezone=True), onupdate=func.now())
 
     # Foreign key to the campaigns table
-    campaign_id = Column(Integer, ForeignKey("campaigns.id"))
+    campaign_id = Column(Integer, ForeignKey("campaigns.campaign_id"))
 
     # Relationship to the Campaign model
     campaign = relationship("Campaign", back_populates="adsets")
@@ -48,8 +48,8 @@ class Adset(Base):
 class Group(Base):
     __tablename__ = "groups"
 
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(255), unique=True, nullable=False)
+    group_id = Column(Integer, primary_key=True, index=True)
+    group_name = Column(String(255), unique=True, nullable=False)
     created_at = Column(TIMESTAMP(timezone=True), server_default=func.now())
     updated_at = Column(TIMESTAMP(timezone=True), onupdate=func.now())
 
