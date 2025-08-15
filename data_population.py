@@ -6,16 +6,16 @@ from models import Campaign, Adset, Group, adset_groups
 
 async def create_sample_data():
     async with AsyncSessionLocal() as session:
-        # Create campaigns
+        # campaigns
         campaign1 = Campaign(campaign_name="Spring Campaign", traffic="Awareness")
         campaign2 = Campaign(campaign_name="Summer Sale", traffic="Traffic")
 
-        # Create adsets
+        # adsets
         adset1 = Adset(adset_name="Adset A", reach="Impressions", campaign=campaign1)
         adset2 = Adset(adset_name="Adset B", reach="Reach", campaign=campaign1)
         adset3 = Adset(adset_name="Adset C", reach="Clicks", campaign=campaign2)
 
-        # Create groups
+        # groups
         group1 = Group(group_name="High-Priority Ads")
         group2 = Group(group_name="Seasonal Ads")
 

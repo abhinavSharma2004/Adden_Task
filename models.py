@@ -23,6 +23,7 @@ class Campaign(Base):
     # One-to-many relationship: One campaign has many adsets
     adsets = relationship("Adset", back_populates="campaign")
 
+
 class Adset(Base):
     __tablename__ = "adsets"
 
@@ -44,6 +45,7 @@ class Adset(Base):
         secondary=adset_groups,
         back_populates="adsets"
     )
+
 
 class Group(Base):
     __tablename__ = "groups"

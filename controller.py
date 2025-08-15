@@ -7,20 +7,20 @@ from models import Adset, Group, Campaign, adset_groups
 from schema import AdsetSchema, GroupSchema
 from sqlalchemy.orm import selectinload
 
+# Table → SQLAlchemy model → Pydantic schema → API response
+
 router = APIRouter(
     prefix="/api",
     tags=["adsets"],
 )
 
-
 #   Required APIs
-
 
 # Endpoint to get all adsets
 @router.get("/adsets/", response_model=List[AdsetSchema])
-async def get_all_adsets(db: AsyncSession = Depends(get_db)):
+async def get_all_adsets(db: AsyncSession = Depends(get_db)): 
 
-    result = await db.execute(select(Adset))
+    result = await db.execute(select(Adset))  # equivalent of sql query
     adsets = result.scalars().all()
 
     # Convert SQLAlchemy models to Pydantic models
@@ -71,7 +71,6 @@ async def get_all_groups(db: AsyncSession = Depends(get_db)):
     result = await db.execute(select(Group))
     groups = result.scalars().all()
 
-    # Convert SQLAlchemy models to Pydantic models
     return [GroupSchema.from_orm(group) for group in groups]
 
 
@@ -80,18 +79,14 @@ async def get_all_groups(db: AsyncSession = Depends(get_db)):
 async def add_adset_to_group(group_id: int, adset_id: int, db: AsyncSession = Depends(get_db)):
     
     result = await db.execute(
-        select(Group)
-        .options(selectinload(Group.adsets))
-        .where(Group.group_id == group_id)
+        select(Group).options(selectinload(Group.adsets)).where(Group.group_id == group_id)
     )
-
     group = result.scalar_one_or_none()
     if not group:
         raise HTTPException(status_code=404, detail="Group not found")
 
     result = await db.execute(select(Adset).where(Adset.adset_id == adset_id))
     adset = result.scalar_one_or_none()
-    
     if not adset:
         raise HTTPException(status_code=404, detail="Adset not found")
 

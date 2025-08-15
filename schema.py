@@ -1,4 +1,6 @@
 from pydantic import BaseModel
+ 
+# Pydantic schemas used for request/response validation and serialization
 
 class AdsetSchema(BaseModel):
     adset_id: int
@@ -6,7 +8,7 @@ class AdsetSchema(BaseModel):
     reach: str
     campaign_id: int
 
-    class Config:
+    class Config:                    # Allows the schema to read data directly from ORM objects 
         orm_mode = True
 
 class CampaignSchema(BaseModel):

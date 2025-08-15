@@ -11,6 +11,7 @@ AsyncSessionLocal = async_sessionmaker(autocommit=False, autoflush=False, bind=e
 # Use AsyncAttrs for declarative base in an async context
 Base = declarative_base(cls=AsyncAttrs)
 
+# creating a session for any db operations
 async def get_db():
     db = AsyncSessionLocal()
     try:
